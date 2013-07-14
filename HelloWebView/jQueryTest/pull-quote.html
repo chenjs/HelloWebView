@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Using Functions</title>
+<link href="site.css" rel="stylesheet">
+<style>
+.pullquote {
+	float: right;
+	clear: right;
+	width: 200px;
+	border: 1px solid black;
+	padding: 10px;
+	font-size: 20px;
+	background-color:rgb(195,151,51);
+	margin: 20px 0 10px 10px;
+	font-style: italic;
+	color: rgb(255,255,255);
+}
+</style>
+<script src="../jquery-1.7.2.min.js"></script>
+<script>
+$(document).ready(function() {
+
+$('span.pq').each(function() {
+  $(this).removeClass('pq');
+  $(this).addClass('pullquote');
+}); // end each
+
+}); // end ready
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+
+<div class="content">
+	<div class="main">
+        <h1>Auto-Pull Quotes</h1>
+        <h2>新浪微博</h2>
+  <p>
+    【面食快餐连锁店Noodles上市招股书】Noodles & Company创立于1995年，在全球有343家面食快餐连锁，截至2013年1月1日的财年营收增17.31%至3亿美元，净利润同比增长34.83%至516.3万美元。对这家市值10亿美元的面食快餐店感兴趣的朋友可以研究下公司招股书.
+    <span class="pq">新浪微博 - 随时随地分享身边的新鲜事!</span>
+    <br />【云计算-数据中心-SDN: 研讨】现代数据中心的网络技术其实不是因为云计算而产生的。云更类似是一个业务推动了网络发展。数据中心的2层布网其实都是从城域网（MAN）的技术借鉴或者改吧改吧过来的。可以这么说，要深刻理解数据中心的L2技术，例如FabricPath，Trill，SPB等，要先理解PB和PBB。
+ </p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

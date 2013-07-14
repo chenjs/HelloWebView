@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>This is a</title>
+        <meta charset="utf-8">
+            <style type="text/css">
+                html { background: #ffffff; }
+                body { color: #000; font: 18px "Arial Rounded MT Bold", Helvetica; }
+                #container { margin-top: 50px; }
+                h1 { text-align: center; color: rgb(96, 30, 0); font-size: 24px; font-weight: bold; }
+                .errorMsg { color: #f00; }
+                #buttons { margin-top: 30px; }
+                </style>
+            
+            <script src="jquery-1.7.2.min.js"></script>
+            <script src="NoClickDelay.js"></script>
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    new NoClickDelay(document.getElementById('container')); 
+                                  }); // end ready
+                
+                
+                var bridge;
+                function navigateTo(toURL) {
+                    bridge.callHandler('navigateTo', {'toURL': toURL}, function(response) {
+                                       //alert(response);
+                                       })
+                }
+                
+                document.addEventListener('WebViewJavascriptBridgeReady', onBridgeReady, false)
+                
+                function onBridgeReady(event) {
+                    bridge = event.bridge
+                    var uniqueId = 1
+                    
+                    function log(message, data) {
+                        /*
+                         var log = document.getElementById('log')
+                         var el = document.createElement('div')
+                         el.className = 'logLine'
+                         el.innerHTML = uniqueId++ + '. ' + message + (data ? ':<br/>' + JSON.stringify(data) : '')
+                         if (log.children.length) { log.insertBefore(el, log.children[0]) }
+                         else { log.appendChild(el) }
+                         */
+                    }
+                    
+                    // Init global message_handler
+                    bridge.init(function(message, responseCallback) {
+                                log('JS got a message', message)
+                                var data = { 'Javascript Responds':'Wee!' }
+                                log('JS responding with', data)
+                                responseCallback(data)
+                                })
+                }
+                </script>
+
+    </head>
+    
+    <body>
+        <div id="container">
+            
+        <h1>This is page a.</h1>
+        
+        <p style="text-align:center"><img src="bookshelf.png" width="114" height="114" /></p>
+        
+        <div id="buttons" style="text-align:center">
+            <a href="javascript:navigateTo('page_b.html')">Goto page_b.html</a>
+        </div>
+        </div>
+    </body>
+</html>

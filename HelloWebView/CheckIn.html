@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Check In</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		html { background: #ffffff; }
+		body { color: #000; font: 18px "Arial Rounded MT Bold", Helvetica; }
+		h1 { text-align: center; color: rgb(96, 30, 0); font-size: 24px; font-weight: bold; }
+		.errorMsg { color: #f00; }
+		#buttons { margin-top: 30px; }
+	</style>
+	
+	<script src="jquery-1.7.2.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#address_desc").html('........');
+		}); // end ready
+        
+        
+		var bridge;
+		function beginUpdateAddress() {
+			$("#address_desc").html('正在获取位置...');
+			bridge.callHandler('getAddress', {'foo': 'bar'}, function(response) {
+				//alert(response);
+				})
+			}
+        
+		document.addEventListener('WebViewJavascriptBridgeReady', onBridgeReady, false)
+			
+		function onBridgeReady(event) {
+			bridge = event.bridge
+			var uniqueId = 1
+
+			function log(message, data) {
+				/*
+					var log = document.getElementById('log')
+					var el = document.createElement('div')
+					el.className = 'logLine'
+					el.innerHTML = uniqueId++ + '. ' + message + (data ? ':<br/>' + JSON.stringify(data) : '')
+					if (log.children.length) { log.insertBefore(el, log.children[0]) }
+					else { log.appendChild(el) }
+				*/
+			}
+            
+			// Init global message_handler
+			bridge.init(function(message, responseCallback) {
+				log('JS got a message', message)
+				var data = { 'Javascript Responds':'Wee!' }
+				log('JS responding with', data)
+				responseCallback(data)
+			})
+            
+			bridge.registerHandler('addressUpdated', function(data, responseCallback) {
+				if (data.error) {
+					$("#address_desc").html(data.error);
+					$("#address_desc").addClass('errorMsg');
+				} else {
+					if (data.address) {
+						$("#address_desc").removeClass('errorMsg');
+						$("#address_desc").html(data.address);
+					}
+				}
+
+				var responseData = { 'Javascript Says':'Right back atcha!' }
+				//log('JS responding with', responseData)
+				responseCallback(responseData)
+			})
+            
+			beginUpdateAddress();
+		}  
+	</script>
+</head>
+
+<body>
+    
+<p style="text-align:center"><img src="checkin.png" width="120" height="120" /></p>
+
+<p style="text-align:center">你当前的位置：</p>
+
+<p id="address_desc" style="text-align:center">正在获取位置中...</p>
+
+<div id="buttons" style="text-align:center">
+	<a href="javascript:beginUpdateAddress()">刷新位置信息</a>
+</div>
+
+</body>
+</html>
